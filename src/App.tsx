@@ -14,6 +14,7 @@ const rotas = createBrowserRouter([
       <>
         <Banner />
         <ListadeProdutos titulo="Promoções" fundo="gray" />
+        <ListadeProdutos titulo="Em breve" fundo="black" />
       </>
     )
   }
