@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import { BarraDoCabecalho, Links, LinkItem, LinkDoCarrinho } from './styles'
 
 import logo from '../../assets/images/logo.svg'
@@ -6,11 +8,13 @@ import carrinho from '../../assets/images/carrinho.svg'
 const Header = () => (
   <BarraDoCabecalho>
     <div>
-      <img src={logo} alt="EPLAY" />
+      <Link to="/">
+        <img src={logo} alt="EPLAY" />
+      </Link>
       <nav>
         <Links>
           <LinkItem>
-            <a href="#">Categorias</a>
+            <Link to="/categorias">Categorias</Link>
           </LinkItem>
 
           <LinkItem>

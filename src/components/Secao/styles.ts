@@ -13,16 +13,16 @@ export const Container = styled.section<Omit<Props, 'titulo' | 'games'>>`
     background-color: ${(props) =>
       props.fundo === 'black' ? cores.cinza : cores.preta};
   }
-`
 
-export const Lista = styled.ul`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 24px;
-  margin-top: 40px;
+  p {
+    font-size: 14px;
+    line-height: 22px;
+    max-width: 640px;
+  }
 `
 
 export const Titulo = styled.h2`
   font-size: 18px;
   font-weight: bold;
+  margin-bottom: 40px;
 `

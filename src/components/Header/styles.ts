@@ -6,6 +6,7 @@ export const BarraDoCabecalho = styled.header`
   padding: 24px;
   border-radius: 16px;
   margin-bottom: 80px;
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
