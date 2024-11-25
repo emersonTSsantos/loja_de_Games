@@ -1,83 +1,59 @@
-import Secao from '../Secao'
-
-import { Itens, Item, Acao, Modal, ConteudoDaModal } from './styles'
-
-import GaleriaHogwartsQuatro from '../../assets/images/GaleriaHogwarts4.webp'
-import GaleriaHogwartsTres from '../../assets/images/GaleriaHogwarts3.jpg'
-import GaleriaHogwartsDois from '../../assets/images/GaleriaHogwarts2.jpg'
-import Zoom from '../../assets/icons/zoom.png'
-import Play from '../../assets/icons/play.png'
-import Close from '../../assets/icons/BotaoFechar.png'
-
 import { useState } from 'react'
 
-interface ItemGaleria {
-  type: 'Imagem' | 'Video'
-  url: string
-}
+import Secao from '../Secao'
+import { ItemGaleria } from '../../pages/Home'
 
-const mock: ItemGaleria[] = [
-  {
-    type: 'Imagem',
-    url: GaleriaHogwartsTres
-  },
-  {
-    type: 'Imagem',
-    url: GaleriaHogwartsDois
-  },
-  {
-    type: 'Imagem',
-    url: GaleriaHogwartsQuatro
-  },
-  {
-    type: 'Video',
-    url: 'https://www.youtube.com/embed/yF29baX-IsA?si=yjpU75LZSZXRX6Fy'
-  }
-]
+import { Item, Itens, Acao, Modal, ConteudoDaModal } from './styles'
+
+import play from '../../assets/icons/play.png'
+import zoom from '../../assets/icons/zoom.png'
+import fechar from '../../assets/icons/BotaoFechar.png'
 
 type Props = {
   defaultCover: string
-  nome: string
+  name: string
+  items: ItemGaleria[]
 }
 
 interface ModalState extends ItemGaleria {
-  estaVisivel: boolean
+  isVisible: boolean
 }
 
-const Galeria = ({ defaultCover, nome }: Props) => {
+const Gallery = ({ defaultCover, name, items }: Props) => {
   const [modal, setModal] = useState<ModalState>({
-    estaVisivel: false,
-    type: 'Imagem',
+    isVisible: false,
+    type: 'image',
     url: ''
   })
 
-  const getMediaCover = (Item: ItemGaleria) => {
-    if (Item.type === 'Imagem') return Item.url
+  const getMediaCover = (item: ItemGaleria) => {
+    if (item.type === 'image') return item.url
     return defaultCover
   }
 
-  const getMediaIcon = (Item: ItemGaleria) => {
-    if (Item.type === 'Imagem') return Zoom
-    return Play
+  const getMediaIcon = (item: ItemGaleria) => {
+    if (item.type === 'image') return zoom
+    return play
   }
 
-  const FechamentoDoModal = () =>
+  const closeModal = () => {
     setModal({
-      estaVisivel: false,
-      type: 'Imagem',
+      isVisible: false,
+      type: 'image',
       url: ''
     })
+  }
 
   return (
     <>
       <Secao titulo="Galeria" fundo="black">
         <Itens>
-          {mock.map((media, index) => (
+          {items.map((media, index) => (
             <Item
               key={media.url}
               onClick={() => {
                 setModal({
-                  estaVisivel: true,
+                  isVisible: true,
                   type: media.type,
                   url: media.url
                 })
@@ -85,38 +61,45 @@ const Galeria = ({ defaultCover, nome }: Props) => {
             >
               <img
                 src={getMediaCover(media)}
-                alt={`Midia ${index + 1} de ${nome}`}
+                alt={`Mídia ${index + 1} de ${name}`}
               />
               <Acao>
                 <img
                   src={getMediaIcon(media)}
-                  alt="Clique para maximizar a mídia"
+                  alt="Clique para maximar a mídia"
                 />
               </Acao>
             </Item>
           ))}
         </Itens>
       </Secao>
-      <Modal className={modal.estaVisivel ? 'visivel' : ''}>
+      <Modal className={modal.isVisible ? 'visivel' : ''}>
         <ConteudoDaModal className="container">
           <header>
-            <h4>{nome}</h4>
+            <h4>{name}</h4>
             <img
-              src={Close}
+              src={fechar}
               alt="Ícone de fechar"
-              onClick={FechamentoDoModal}
+              onClick={() => {
+                closeModal()
+              }}
             />
           </header>
-          {modal.type === 'Imagem' ? (
+          {modal.type === 'image' ? (
             <img src={modal.url} />
           ) : (
-            <iframe src={modal.url} frameBorder="0" />
+            <iframe frameBorder={0} src={modal.url} />
           )}
         </ConteudoDaModal>
-        <div className="overlay" onClick={FechamentoDoModal}></div>
+        <div
+          onClick={() => {
+            closeModal()
+          }}
+          className="overlay"
+        ></div>
       </Modal>
     </>
   )
 }
 
-export default Galeria
+export default Gallery

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { cores } from '../../styles'
 
 export const Container = styled.footer`
-  background-color: ${cores.cinza};
+  background-color: ${cores.preta};
   padding: 32px 0;
   font-size: 14px;
 `

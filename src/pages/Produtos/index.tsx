@@ -1,46 +1,52 @@
 import { useParams } from 'react-router-dom'
 import Hero from '../../components/Hero'
-import Secao from '../../components/Secao'
-import Galeria from '../../components/Galeria'
+import Section from '../../components/Secao'
 
-import TambHogwarsLegacyDois from '../../assets/images/tamb_hogwarts2.avif'
+import Gallery from '../../components/Galeria'
 
-const Produtos = () => {
+import { useEffect, useState } from 'react'
+import { Game } from '../Home'
+
+const Product = () => {
   const { id } = useParams()
+
+  const [game, setGame] = useState<Game>()
+
+  useEffect(() => {
+    fetch(`https://fake-api-tau.vercel.app/api/eplay/jogos/${id}`)
+      .then((res) => res.json())
+      .then((res) => setGame(res))
+  }, [id])
+
+  if (!game) {
+    return <h3>Carregando...</h3>
+  }
 
   return (
     <>
-      <Hero />
-      <Secao titulo="Sobre o Jogo" fundo="black">
+      <Hero game={game} />
+      <Section titulo="Sobre o jogo" fundo="black">
+        <p>{game.description}</p>
+      </Section>
+      <Section titulo="Mais detalhes" fundo="gray">
         <p>
-          Hogwarts Legacy é um RPG de ação imersivo e de mundo aberto ambientado
-          no mundo introduzido pela primeira vez nos livros do Harry Potter.
-          Embarque em uma jornada por locais novos e familiares enquanto explora
-          e descubra animais fantásticos, personalize seu personagem e crie
-          poções, domine o lançamento de feitiços, aprimore talentos e torne-se
-          o bruxo que deseja ser.Experimente Hogwarts da década de 1800. Seu
-          personagem é um estudante com chave de um antigo segredo que ameaça
-          destruir o mundo bruxo. Faça aliados, lute contra os bruxos das trevas
-          e decida o destino do mundo bruxo. Seu legado é o que você faz dele.
-          Viva o Inesperado.
-        </p>
-      </Secao>
-      <Secao titulo="Mais Detalhes" fundo="gray">
-        <p>
-          <b>Plataforma:</b> PlayStation 5<br />
-          <b>Desenvolvedor:</b> Avalanche Software <br />
-          <b>Editora:</b> Portkey Games, subsidiáriada Warner Bros. Interactive
-          Entertainment
+          <b>Plataforma:</b> {game.details.system}
           <br />
-          <b>Idiomas:</b> O jogo oferece suporte a diversos idiomas, incluindo
-          inglês, espanhol, francês, alemão, italiano, português, entre outros.
-          As opções de áudio e legendas podem ser ajustadas nas configurações do
-          jogo.
+          <b>Desenvolvedor:</b> {game.details.developer}
+          <br />
+          <b>Editora:</b> {game.details.publisher}
+          <br />
+          <b>Idiomas:</b> O jogo oferece suporte a diversos idiomas, incluindo{' '}
+          {game.details.languages.join(', ')}
         </p>
-      </Secao>
-      <Galeria nome="jogo teste" defaultCover={TambHogwarsLegacyDois} />
+      </Section>
+      <Gallery
+        name={game.name}
+        defaultCover={game.media.cover}
+        items={game.media.gallery}
+      />
     </>
   )
 }
 
-export default Produtos
+export default Product
