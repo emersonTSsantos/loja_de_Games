@@ -3,6 +3,7 @@ import Produtos from '../Produtos'
 import { Container, Lista } from './styles'
 
 export type Props = {
+  id?: string
   titulo: string
   fundo: 'gray' | 'black'
   games: Game[]
@@ -15,7 +16,7 @@ export const formataPreco = (preco = 0) => {
   }).format(preco)
 }
 
-const ProductsList = ({ games, fundo, titulo }: Props) => {
+const ListaDeProdutos = ({ games, fundo, titulo, id }: Props) => {
   const getGameTags = (game: Game) => {
     const tags = []
 
@@ -35,7 +36,7 @@ const ProductsList = ({ games, fundo, titulo }: Props) => {
   }
 
   return (
-    <Container fundo={fundo}>
+    <Container id={id} fundo={fundo}>
       <div className="container">
         <h2>{titulo}</h2>
         <Lista>
@@ -58,4 +59,4 @@ const ProductsList = ({ games, fundo, titulo }: Props) => {
   )
 }
 
-export default ProductsList
+export default ListaDeProdutos

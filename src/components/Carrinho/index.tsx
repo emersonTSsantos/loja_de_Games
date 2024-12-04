@@ -1,6 +1,4 @@
-import Botao from '../Botao'
-
-import starWars from '../../assets/images/star_wars.png'
+import Button from '../Botao'
 
 import {
   Overlay,
@@ -17,7 +15,7 @@ import { close, remove } from '../../store/reducers/carrinho'
 import { formataPreco } from '../ListadeProdutos'
 
 const Cart = () => {
-  const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
+  const { isOpen, items } = useSelector((state: RootReducer) => state.carrinho)
 
   const dispatch = useDispatch()
 
@@ -49,7 +47,7 @@ const Cart = () => {
                 <Tag>{item.details.system}</Tag>
                 <span>{formataPreco(item.prices.current)}</span>
               </div>
-              <Botao onClick={() => removeItem(item.id)} type="Botao" />
+              <button onClick={() => removeItem(item.id)} type="button" />
             </CartItem>
           ))}
         </ul>
@@ -58,9 +56,9 @@ const Cart = () => {
           Total de {formataPreco(getTotalPrice())}{' '}
           <span>Em até 6x sem juros</span>
         </Prices>
-        <Botao title="Clique aqui para continuar com a compra" type="Botao">
+        <Button title="Clique aqui para continuar com a compra" type="button">
           Continuar com a compra
-        </Botao>
+        </Button>
       </Sidebar>
     </CartContainer>
   )

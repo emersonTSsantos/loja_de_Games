@@ -1,40 +1,40 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Game } from '../../pages/Home'
 
-type CarrinhotState = {
-  itens: Game[]
-  estaAberto: boolean
+type CartState = {
+  items: Game[]
+  isOpen: boolean
 }
 
-const initialState: CarrinhotState = {
-  itens: [],
-  estaAberto: false
+const initialState: CartState = {
+  items: [],
+  isOpen: false
 }
 
-const carrinhoSlice = createSlice({
-  name: 'carrinho',
+const cartSlice = createSlice({
+  name: 'cart',
   initialState,
   reducers: {
     add: (state, action: PayloadAction<Game>) => {
-      const game = state.itens.find((item) => item.id === action.payload.id)
+      const game = state.items.find((item) => item.id === action.payload.id)
 
       if (!game) {
-        state.itens.push(action.payload)
+        state.items.push(action.payload)
       } else {
         alert('O jogo já está no carrinho')
       }
     },
     remove: (state, action: PayloadAction<number>) => {
-      state.itens = state.itens.filter((item) => item.id !== action.payload)
+      state.items = state.items.filter((item) => item.id !== action.payload)
     },
     open: (state) => {
-      state.estaAberto = true
+      state.isOpen = true
     },
     close: (state) => {
-      state.estaAberto = false
+      state.isOpen = false
     }
   }
 })
 
-export const { add, open, close, remove } = carrinhoSlice.actions
-export default carrinhoSlice.reducer
+export const { add, open, close, remove } = cartSlice.actions
+export default cartSlice.reducer

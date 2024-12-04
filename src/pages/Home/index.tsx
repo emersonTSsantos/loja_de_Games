@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-
 import Banner from '../../components/Banner'
-import ListadeProdutos from '../../components/ListadeProdutos'
+import ProductsList from '../../components/ListadeProdutos'
+
+import { useGetOnSaleQuery, useGetSoonQuery } from '../../services/api'
 
 export interface ItemGaleria {
   type: 'image' | 'video'
@@ -33,26 +33,30 @@ export type Game = {
 }
 
 const Home = () => {
-  const [promocoes, setPromocoes] = useState<Game[]>([])
-  const [emBreve, setEmBreve] = useState<Game[]>([])
+  const { data: onSaleGames } = useGetOnSaleQuery()
+  const { data: soonGames } = useGetSoonQuery()
 
-  useEffect(() => {
-    fetch('https://fake-api-tau.vercel.app/api/eplay/promocoes')
-      .then((res) => res.json())
-      .then((res) => setPromocoes(res))
+  if (onSaleGames && soonGames) {
+    return (
+      <>
+        <Banner />
+        <ProductsList
+          games={onSaleGames}
+          titulo="Promoções"
+          fundo="gray"
+          id="on-sale"
+        />
+        <ProductsList
+          games={soonGames}
+          titulo="Em breve"
+          fundo="black"
+          id="coming-soon"
+        />
+      </>
+    )
+  }
 
-    fetch('https://fake-api-tau.vercel.app/api/eplay/em-breve')
-      .then((res) => res.json())
-      .then((res) => setEmBreve(res))
-  }, [])
-
-  return (
-    <>
-      <Banner />
-      <ListadeProdutos games={promocoes} titulo="Promoções" fundo="gray" />
-      <ListadeProdutos games={emBreve} titulo="Em breve" fundo="black" />
-    </>
-  )
+  return <h4>Carregando</h4>
 }
 
 export default Home

@@ -1,18 +1,23 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 import { ContainerDaTag } from '../Tag/styles'
 import { Link } from 'react-router-dom'
 
 export const Card = styled(Link)`
   background-color: ${cores.cinza};
   border-radius: 8px;
-  padding: 8px;
+  padding: 5px;
   position: relative;
   text-decoration: none;
   color: ${cores.branca};
   display: block;
   cursor: pointer;
   height: 100%;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    width: 130%;
+    height: 100%;
+  }
 
   img {
     display: block;

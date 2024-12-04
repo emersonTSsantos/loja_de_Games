@@ -3,6 +3,8 @@ import { cores } from '../../styles'
 
 export const Itens = styled.ul`
   display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
 `
 export const Acao = styled.div`
   position: absolute;
@@ -16,10 +18,13 @@ export const Acao = styled.div`
   justify-content: center;
   opacity: 0;
   transition: opacity 0.5s ease;
+
+  img {
+    cursor: pointer;
+  }
 `
 
 export const Item = styled.li`
-  margin-right: 16px;
   position: relative;
 
   > img {
@@ -86,6 +91,7 @@ export const ConteudoDaModal = styled.div`
   iframe {
     display: block;
     max-width: 100%;
+    cursor: pointer;
   }
 
   iframe {

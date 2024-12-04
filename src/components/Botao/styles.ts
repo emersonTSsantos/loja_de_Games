@@ -16,6 +16,7 @@ export const ContainerDoBotao = styled.button<Props>`
   padding: 8px 16px;
   text-decoration: none;
   border-radius: 8px;
+  cursor: pointer;
 `
 export const LinkBotao = styled(Link)`
   background-color: transparent;

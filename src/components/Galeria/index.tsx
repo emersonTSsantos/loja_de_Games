@@ -7,7 +7,7 @@ import { Item, Itens, Acao, Modal, ConteudoDaModal } from './styles'
 
 import play from '../../assets/icons/play.png'
 import zoom from '../../assets/icons/zoom.png'
-import fechar from '../../assets/icons/BotaoFechar.png'
+import fechar from '../../assets/images/fechar.png'
 
 type Props = {
   defaultCover: string
