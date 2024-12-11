@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 import Botao from '../../components/Botao'
 import Card from '../../components/Card'
@@ -11,35 +13,162 @@ import cartao from '../../assets/icons/cartao.png'
 const Checkout = () => {
   const [pagarComCartao, setpagarComCartao] = useState(false)
 
+  const form = useFormik({
+    initialValues: {
+      nomeCompleto: '',
+      email: '',
+      cpf: '',
+      emailDeEntrega: '',
+      ConfirmacaoEmailDeEntrega: '',
+      donoDoCartao: '',
+      cpfDonoDoCartao: '',
+      nomeNoCartao: '',
+      numeroDoCartao: '',
+      mesDeExpiracao: '',
+      anoDeExpiracao: '',
+      codigoCartao: '',
+      parcelas: ''
+    },
+    validationSchema: Yup.object({
+      // Dados de Cobrança
+      nomeCompleto: Yup.string()
+        .min(5, 'O nome precisa ter pelo nenos 5 caracteres')
+        .required('Campo obrigatório'),
+      email: Yup.string()
+        .email('E-mail inválido')
+        .required('Campo obrigatório'),
+      cpf: Yup.string()
+        .min(14, 'O campo precisa ter 14 caracteres')
+        .max(14, 'O campo precisa ter 14 caracteres')
+        .required('Campo obrigatório'),
+      emailDeEntrega: Yup.string()
+        .email('E-mail inválido')
+        .required('Campo obrigatório'),
+      ConfirmacaoEmailDeEntrega: Yup.string()
+        .oneOf([Yup.ref('emailDeEntrega')], 'Os e-mails estão diferentes')
+        .required('Campo obrigatório'),
+
+      //pagamento
+      donoDoCartao: Yup.string().when((values, schema) =>
+        pagarComCartao ? schema.required('Campo obrigatório') : schema
+      ),
+      cpfDonoDoCartao: Yup.string().when((values, schema) =>
+        pagarComCartao ? schema.required('Campo obrigatório') : schema
+      ),
+      nomeNoCartao: Yup.string().when((values, schema) =>
+        pagarComCartao ? schema.required('Campo obrigatório') : schema
+      ),
+      numeroDoCartao: Yup.string().when((values, schema) =>
+        pagarComCartao ? schema.required('Campo obrigatório') : schema
+      ),
+      mesDeExpiracao: Yup.string().when((values, schema) =>
+        pagarComCartao ? schema.required('Campo obrigatório') : schema
+      ),
+      anoDeExpiracao: Yup.string().when((values, schema) =>
+        pagarComCartao ? schema.required('Campo obrigatório') : schema
+      ),
+      codigoCartao: Yup.string().when((values, schema) =>
+        pagarComCartao ? schema.required('Campo obrigatório') : schema
+      ),
+      parcelas: Yup.string().when((values, schema) =>
+        pagarComCartao ? schema.required('Campo obrigatório') : schema
+      )
+    }),
+    onSubmit: (values) => {
+      console.log(values)
+    }
+  })
+
+  const getMensagemDeErro = (fieldName: string, mensagem?: string) => {
+    const estaAlterado = fieldName in form.touched
+    const estaInvalido = fieldName in form.errors
+
+    if (estaAlterado && estaInvalido) return mensagem
+    return ''
+  }
+
   return (
-    <div className="container">
+    <form onSubmit={form.handleSubmit} className="container">
       <Card titulo="Dados de Cobrança">
         <>
           <Linha>
             <GrupoDeInput>
               <label htmlFor="nomeCompleto">Nome Completo</label>
-              <input id="nomeCompleto" type="text" />
+              <input
+                id="nomeCompleto"
+                type="text"
+                name="nomeCompleto"
+                value={form.values.nomeCompleto}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+              <small>
+                {getMensagemDeErro('nomeCompleto', form.errors.nomeCompleto)}
+              </small>
             </GrupoDeInput>
             <GrupoDeInput>
               <label htmlFor="email">E-mail</label>
-              <input id="email" type="email" />
+              <input
+                id="email"
+                type="email"
+                name="email"
+                value={form.values.email}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+              <small>
+                {getMensagemDeErro('email', form.errors.nomeCompleto)}
+              </small>
             </GrupoDeInput>
             <GrupoDeInput>
               <label htmlFor="cpf">CPF</label>
-              <input id="cpf" type="text" />
+              <input
+                id="cpf"
+                type="text"
+                name="cpf"
+                value={form.values.cpf}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+              <small>
+                {getMensagemDeErro('cpf', form.errors.nomeCompleto)}
+              </small>
             </GrupoDeInput>
           </Linha>
           <h3 className="margimTop">Dados de entrega - conteúdo digital</h3>
           <Linha>
             <GrupoDeInput>
               <label htmlFor="emailDeEntrega">E-mail</label>
-              <input id="emailDeEntrega" type="email" />
+              <input
+                id="emailDeEntrega"
+                type="email"
+                name="emailDeEntrega"
+                value={form.values.emailDeEntrega}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+              <small>
+                {getMensagemDeErro('emailDeEntrega', form.errors.nomeCompleto)}
+              </small>
             </GrupoDeInput>
             <GrupoDeInput>
               <label htmlFor="ConfirmacaoEmailDeEntrega">
                 Confirme o e-mail
               </label>
-              <input id="ConfirmacaoEmailDeEntrega" type="email" />
+              <input
+                id="ConfirmacaoEmailDeEntrega"
+                type="email"
+                name="ConfirmacaoEmailDeEntrega"
+                value={form.values.ConfirmacaoEmailDeEntrega}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+              <small>
+                {getMensagemDeErro(
+                  'ConfirmacaoEmailDeEntrega',
+                  form.errors.nomeCompleto
+                )}
+              </small>
             </GrupoDeInput>
           </Linha>
         </>
@@ -68,45 +197,145 @@ const Checkout = () => {
                     <label htmlFor="donoDoCartao">
                       Nome do Titular do cartão
                     </label>
-                    <input type="text" id="donoDoCartao" />
+                    <input
+                      type="text"
+                      id="donoDoCartao"
+                      name="donoDoCartao"
+                      value={form.values.donoDoCartao}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    <small>
+                      {getMensagemDeErro(
+                        'donoDoCartao',
+                        form.errors.nomeCompleto
+                      )}
+                    </small>
                   </GrupoDeInput>
                   <GrupoDeInput>
                     <label htmlFor="cpfDonoDoCartao">
                       Cpf do Titular do cartão
                     </label>
-                    <input type="text" id="cpfDonoDoCartao" />
+                    <input
+                      type="text"
+                      id="cpfDonoDoCartao"
+                      name="cpfDonoDoCartao"
+                      value={form.values.cpfDonoDoCartao}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    <small>
+                      {getMensagemDeErro(
+                        'cpfDonoDoCartao',
+                        form.errors.nomeCompleto
+                      )}
+                    </small>
                   </GrupoDeInput>
                 </Linha>
                 <Linha marginTop="24px">
                   <GrupoDeInput>
                     <label htmlFor="nomeNoCartao">Nome no cartão</label>
-                    <input type="text" id="nomeNoCartao" />
+                    <input
+                      type="text"
+                      id="nomeNoCartao"
+                      name="nomeNoCartao"
+                      value={form.values.nomeNoCartao}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    <small>
+                      {getMensagemDeErro(
+                        'nomeNoCartao',
+                        form.errors.nomeCompleto
+                      )}
+                    </small>
                   </GrupoDeInput>
                   <GrupoDeInput>
                     <label htmlFor="numeroDoCartao">Número do cartão</label>
-                    <input type="text" id="numeroDoCartao" />
+                    <input
+                      type="text"
+                      id="numeroDoCartao"
+                      name="numeroDoCartao"
+                      value={form.values.numeroDoCartao}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    <small>
+                      {getMensagemDeErro(
+                        'numeroDoCartao',
+                        form.errors.nomeCompleto
+                      )}
+                    </small>
                   </GrupoDeInput>
                   <GrupoDeInput maxWidth="123px">
                     <label htmlFor="mesDeExpiracao">Mês de Vencimento</label>
-                    <input type="text" id="mesDeExpiracao" />
+                    <input
+                      type="text"
+                      id="mesDeExpiracao"
+                      name="mesDeExpiracao"
+                      value={form.values.mesDeExpiracao}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    <small>
+                      {getMensagemDeErro(
+                        'mesDeExpiracao',
+                        form.errors.nomeCompleto
+                      )}
+                    </small>
                   </GrupoDeInput>
                   <GrupoDeInput maxWidth="123px">
                     <label htmlFor="anoDeExpiracao">Ano de Vencimento</label>
-                    <input type="text" id="anoDeExpiracao" />
+                    <input
+                      type="text"
+                      id="anoDeExpiracao"
+                      name="anoDeExpiracao"
+                      value={form.values.anoDeExpiracao}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    <small>
+                      {getMensagemDeErro(
+                        'anoDeExpiracao',
+                        form.errors.nomeCompleto
+                      )}
+                    </small>
                   </GrupoDeInput>
                   <GrupoDeInput maxWidth="48px">
-                    <label htmlFor="CVV">CVV</label>
-                    <input type="text" id="CVV" />
+                    <label htmlFor="codigoCartao">codigoCartao</label>
+                    <input
+                      type="text"
+                      id="codigoCartao"
+                      name="codigoCartao"
+                      value={form.values.codigoCartao}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
+                    <small>
+                      {getMensagemDeErro(
+                        'codigoCartao',
+                        form.errors.nomeCompleto
+                      )}
+                    </small>
                   </GrupoDeInput>
                 </Linha>
                 <Linha marginTop="24px">
                   <GrupoDeInput maxWidth="150px">
                     <label htmlFor="parcelas">Parcelamento</label>
-                    <select>
+                    <select
+                      id="parcelas"
+                      name="parcelas"
+                      value={form.values.parcelas}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    >
                       <option>1x de R$ 200,00</option>
                       <option>2x de R$ 200,00</option>
                       <option>3x de R$ 200,00</option>
                     </select>
+                    <small>
+                      {getMensagemDeErro('parcelas', form.errors.nomeCompleto)}
+                    </small>
                   </GrupoDeInput>
                 </Linha>
               </>
@@ -125,7 +354,7 @@ const Checkout = () => {
       <Botao type="button" title="Clique aqui para finalzar a Compra">
         Finalizar Compra
       </Botao>
-    </div>
+    </form>
   )
 }
 
