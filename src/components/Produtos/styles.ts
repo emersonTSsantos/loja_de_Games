@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 export const Card = styled(Link)`
   background-color: ${cores.cinza};
   border-radius: 8px;
-  padding: 5px;
+  padding: 8px;
   position: relative;
   text-decoration: none;
   color: ${cores.branca};
@@ -15,7 +15,7 @@ export const Card = styled(Link)`
   height: 100%;
 
   @media (max-width: ${breakpoints.tablet}) {
-    width: 130%;
+    width: 100%;
     height: 100%;
   }
 

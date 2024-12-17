@@ -116,9 +116,7 @@ const Checkout = () => {
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
               />
-              <small>
-                {getMensagemDeErro('email', form.errors.nomeCompleto)}
-              </small>
+              <small>{getMensagemDeErro('email', form.errors.email)}</small>
             </GrupoDeInput>
             <GrupoDeInput>
               <label htmlFor="cpf">CPF</label>
@@ -130,9 +128,7 @@ const Checkout = () => {
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
               />
-              <small>
-                {getMensagemDeErro('cpf', form.errors.nomeCompleto)}
-              </small>
+              <small>{getMensagemDeErro('cpf', form.errors.cpf)}</small>
             </GrupoDeInput>
           </Linha>
           <h3 className="margimTop">Dados de entrega - conteúdo digital</h3>
@@ -148,7 +144,10 @@ const Checkout = () => {
                 onBlur={form.handleBlur}
               />
               <small>
-                {getMensagemDeErro('emailDeEntrega', form.errors.nomeCompleto)}
+                {getMensagemDeErro(
+                  'emailDeEntrega',
+                  form.errors.emailDeEntrega
+                )}
               </small>
             </GrupoDeInput>
             <GrupoDeInput>
@@ -166,7 +165,7 @@ const Checkout = () => {
               <small>
                 {getMensagemDeErro(
                   'ConfirmacaoEmailDeEntrega',
-                  form.errors.nomeCompleto
+                  form.errors.ConfirmacaoEmailDeEntrega
                 )}
               </small>
             </GrupoDeInput>
@@ -176,6 +175,7 @@ const Checkout = () => {
       <Card titulo="Pagamento">
         <>
           <TabBotao
+            type="button"
             isActive={!pagarComCartao}
             onClick={() => setpagarComCartao(false)}
           >
@@ -183,6 +183,7 @@ const Checkout = () => {
             Boleto Bancário
           </TabBotao>
           <TabBotao
+            type="button"
             isActive={pagarComCartao}
             onClick={() => setpagarComCartao(true)}
           >
@@ -208,7 +209,7 @@ const Checkout = () => {
                     <small>
                       {getMensagemDeErro(
                         'donoDoCartao',
-                        form.errors.nomeCompleto
+                        form.errors.donoDoCartao
                       )}
                     </small>
                   </GrupoDeInput>
@@ -227,7 +228,7 @@ const Checkout = () => {
                     <small>
                       {getMensagemDeErro(
                         'cpfDonoDoCartao',
-                        form.errors.nomeCompleto
+                        form.errors.cpfDonoDoCartao
                       )}
                     </small>
                   </GrupoDeInput>
@@ -246,7 +247,7 @@ const Checkout = () => {
                     <small>
                       {getMensagemDeErro(
                         'nomeNoCartao',
-                        form.errors.nomeCompleto
+                        form.errors.nomeNoCartao
                       )}
                     </small>
                   </GrupoDeInput>
@@ -263,7 +264,7 @@ const Checkout = () => {
                     <small>
                       {getMensagemDeErro(
                         'numeroDoCartao',
-                        form.errors.nomeCompleto
+                        form.errors.numeroDoCartao
                       )}
                     </small>
                   </GrupoDeInput>
@@ -280,7 +281,7 @@ const Checkout = () => {
                     <small>
                       {getMensagemDeErro(
                         'mesDeExpiracao',
-                        form.errors.nomeCompleto
+                        form.errors.mesDeExpiracao
                       )}
                     </small>
                   </GrupoDeInput>
@@ -297,7 +298,7 @@ const Checkout = () => {
                     <small>
                       {getMensagemDeErro(
                         'anoDeExpiracao',
-                        form.errors.nomeCompleto
+                        form.errors.anoDeExpiracao
                       )}
                     </small>
                   </GrupoDeInput>
@@ -314,7 +315,7 @@ const Checkout = () => {
                     <small>
                       {getMensagemDeErro(
                         'codigoCartao',
-                        form.errors.nomeCompleto
+                        form.errors.codigoCartao
                       )}
                     </small>
                   </GrupoDeInput>
@@ -334,7 +335,7 @@ const Checkout = () => {
                       <option>3x de R$ 200,00</option>
                     </select>
                     <small>
-                      {getMensagemDeErro('parcelas', form.errors.nomeCompleto)}
+                      {getMensagemDeErro('parcelas', form.errors.parcelas)}
                     </small>
                   </GrupoDeInput>
                 </Linha>
@@ -351,7 +352,11 @@ const Checkout = () => {
           </div>
         </>
       </Card>
-      <Botao type="button" title="Clique aqui para finalzar a Compra">
+      <Botao
+        type="button"
+        title="Clique aqui para finalzar a Compra"
+        onClick={form.handleSubmit}
+      >
         Finalizar Compra
       </Botao>
     </form>

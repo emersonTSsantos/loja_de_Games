@@ -25,9 +25,8 @@ export const Lista = styled.ul`
     grid-template-columns: 1fr 1fr;
   }
 
-  @media (max-width: ${breakpoints.desktop}) {
-    margin-right: 30px;
-    gap: 60px;
+  @media (max-width: ${breakpoints.tablet}) {
+    grid-template-columns: 1fr;
   }
 `
 export const Titulo = styled.h2`
