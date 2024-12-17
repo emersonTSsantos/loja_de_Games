@@ -9,9 +9,11 @@ import { GrupoDeInput, Linha, TabBotao } from './styles'
 
 import boleto from '../../assets/icons/boleto.png'
 import cartao from '../../assets/icons/cartao.png'
+import { usePurchaseMutation } from '../../services/api'
 
 const Checkout = () => {
   const [pagarComCartao, setpagarComCartao] = useState(false)
+  const [purchase, { isLoading, isError, data }] = usePurchaseMutation()
 
   const form = useFormik({
     initialValues: {
@@ -75,7 +77,39 @@ const Checkout = () => {
       )
     }),
     onSubmit: (values) => {
-      console.log(values)
+      purchase({
+        billing: {
+          document: values.cpf,
+          email: values.email,
+          name: values.nomeCompleto
+        },
+        delivery: {
+          email: values.emailDeEntrega
+        },
+        payment: {
+          installments: 1,
+          card: {
+            active: pagarComCartao,
+            code: Number(values.codigoCartao),
+            name: values.nomeNoCartao,
+            number: values.numeroDoCartao,
+            owner: {
+              document: values.cpfDonoDoCartao,
+              name: values.donoDoCartao
+            },
+            expires: {
+              month: 1,
+              year: 2024
+            }
+          }
+        },
+        products: [
+          {
+            id: 1,
+            price: 10
+          }
+        ]
+      })
     }
   })
 
