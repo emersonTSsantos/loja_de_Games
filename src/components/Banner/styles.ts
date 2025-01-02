@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { ContainerDaTag } from '../Tag/styles'
+import { cores } from '../../styles'
 
 export const Imagem = styled.div`
   width: 100%;
@@ -46,5 +47,28 @@ export const Precos = styled.p`
 
   span {
     text-decoration: line-through;
+  }
+`
+export const Carregando = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  transform: scale(3);
+
+  .c-loader {
+    animation: is-rotating 1s infinite;
+    width: 50px;
+    height: 50px;
+    border: 6px solid ${cores.preta};
+    border-radius: 50%;
+    border-top-color: ${cores.branca};
+
+    @keyframes is-rotating {
+      to {
+        transform: rotate(1turn);
+      }
+    }
   }
 `

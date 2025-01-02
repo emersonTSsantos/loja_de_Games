@@ -1,4 +1,4 @@
-import { Imagem, Titulo, Precos } from './styles'
+import { Imagem, Titulo, Precos, Carregando } from './styles'
 
 import Tag from '../Tag'
 import Botao from '../Botao'
@@ -11,7 +11,11 @@ const Banner = () => {
   const { data: game, isLoading } = useGetFeaturedGameQuery()
 
   if (!game) {
-    return <h3>Carregando...</h3>
+    return (
+      <Carregando>
+        <div className="c-loader"></div>
+      </Carregando>
+    )
   }
 
   return (

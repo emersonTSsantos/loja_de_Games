@@ -1,4 +1,5 @@
 import Banner from '../../components/Banner'
+import { Carregando } from '../../components/Banner/styles'
 import ProductsList from '../../components/ListadeProdutos'
 
 import { useGetOnSaleQuery, useGetSoonQuery } from '../../services/api'
@@ -56,7 +57,11 @@ const Home = () => {
     )
   }
 
-  return <h4>Carregando</h4>
+  return (
+    <Carregando>
+      <div className="c-loader"></div>
+    </Carregando>
+  )
 }
 
 export default Home
