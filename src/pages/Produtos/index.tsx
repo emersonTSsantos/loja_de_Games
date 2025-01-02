@@ -5,13 +5,19 @@ import Section from '../../components/Secao'
 import Gallery from '../../components/Galeria'
 
 import { useGetGameQuery } from '../../services/api'
+import { Carregando } from '../../components/Banner/styles'
 
 const Product = () => {
   const { id } = useParams()
   const { data: game } = useGetGameQuery(id!)
 
   if (!game) {
-    return <h3>Carregando...</h3>
+    return (
+      <Carregando>
+        <p>Carregando ...</p>
+        <div className="c-loader"></div>
+      </Carregando>
+    )
   }
 
   return (

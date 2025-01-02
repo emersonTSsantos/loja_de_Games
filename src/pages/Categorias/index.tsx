@@ -1,3 +1,4 @@
+import { Carregando } from '../../components/Banner/styles'
 import ListaDeProdutos from '../../components/ListadeProdutos'
 
 import {
@@ -47,7 +48,12 @@ const Categorias = () => {
     )
   }
 
-  return <h4>Carregando</h4>
+  return (
+    <Carregando>
+      <p>Carregando ...</p>
+      <div className="c-loader"></div>
+    </Carregando>
+  )
 }
 
 export default Categorias

@@ -13,6 +13,7 @@ const Banner = () => {
   if (!game) {
     return (
       <Carregando>
+        <p>Carregando ...</p>
         <div className="c-loader"></div>
       </Carregando>
     )
